@@ -32,13 +32,8 @@ export class AuthController {
   }
 
   @Get('profile')
-  getProfile(@Req() req): Promise<User> {
-    try {
-      const user = req.user;
-      return user;
-    } catch (e) {
-      throw new Error('req not work');
-    }
+  async getProfile(@Req() req): Promise<User> {
+    return req.user;
   }
 
   @Post('log-out')
