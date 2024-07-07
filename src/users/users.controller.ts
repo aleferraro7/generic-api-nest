@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDTO, UserDTO } from './dto/user.dto';
@@ -16,13 +17,18 @@ import {
   PaginateQuery,
 } from 'nestjs-paginate';
 import { User, USER_PAGINATE_CONFIG } from './entities/user.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { PublicAccess } from 'src/auth/decorators/public.decorator';
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiTags('USERS')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @PublicAccess()
   @Post()
   async create(@Body() createUserDto: UserDTO) {
     return this.usersService.register(createUserDto);
