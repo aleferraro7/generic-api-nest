@@ -20,14 +20,13 @@ import { User, USER_PAGINATE_CONFIG } from './entities/user.entity';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PublicAccess } from 'src/auth/decorators/public.decorator';
 import { ROLES } from 'src/constants/roles';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-// import { Auth } from 'src/auth/decorators/auth.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { RolesAccess } from 'src/auth/decorators/roles.decorator';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(ROLES.USER)
+@RolesAccess(ROLES.USER)
 @ApiTags('USERS')
 @Controller('users')
 export class UsersController {
@@ -51,12 +50,13 @@ export class UsersController {
     return await this.usersService.findOneById(id);
   }
 
+  @RolesAccess(ROLES.ADMIN)
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDTO) {
     return await this.usersService.update(id, updateUserDto);
   }
 
-  @Roles(ROLES.ADMIN)
+  @RolesAccess(ROLES.SUPERADMIN)
   @Delete(':id')
   async delete(@Param('id') id: number) {
     return await this.usersService.deleteById(id);
