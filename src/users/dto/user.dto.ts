@@ -6,7 +6,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { Roles } from 'src/constants/roles';
+import { ROLES } from 'src/constants/roles';
 
 export class UserDTO {
   @ApiProperty({
@@ -43,8 +43,8 @@ export class UserDTO {
     required: true,
   })
   @IsNotEmpty()
-  @IsEnum(Roles)
-  role: Roles;
+  @IsEnum(ROLES)
+  role: ROLES;
 }
 
 export class CreateUserDTO {
@@ -82,8 +82,8 @@ export class CreateUserDTO {
     required: true,
   })
   @IsNotEmpty()
-  @IsEnum(Roles)
-  role: Roles;
+  @IsEnum(ROLES)
+  role: ROLES;
 }
 
 export class UpdateUserDTO extends PartialType(UserDTO) {}

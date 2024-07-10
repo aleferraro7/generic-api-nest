@@ -1,6 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
 import { BaseEntity } from '../../config/base.entity';
-import { Roles } from '../../constants/roles';
+import { ROLES } from '../../constants/roles';
 import { Column, Entity } from 'typeorm';
 import { PaginateConfig } from 'nestjs-paginate';
 
@@ -17,8 +17,8 @@ export class User extends BaseEntity {
   @Exclude()
   password: string;
 
-  @Column({ type: 'enum', enum: Roles })
-  role: Roles;
+  @Column({ type: 'enum', enum: ROLES })
+  role: ROLES;
 }
 
 export const USER_PAGINATE_CONFIG: PaginateConfig<User> = {
