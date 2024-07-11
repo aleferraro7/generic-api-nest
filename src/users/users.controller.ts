@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDTO, UserDTO } from './dto/user.dto';
@@ -30,7 +31,10 @@ import { RolesAccess } from 'src/auth/decorators/roles.decorator';
 @ApiTags('USERS')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly logger: Logger,
+  ) {}
 
   @PublicAccess()
   @Post()
@@ -47,7 +51,11 @@ export class UsersController {
 
   @Get(':id')
   async findOneById(@Param('id') id: number) {
-    return await this.usersService.findOneById(id);
+    try {
+      return await this.usersService.findOneById(id);
+    } catch {
+      this.logger.error('Not found user'), UsersController.name;
+    }
   }
 
   @RolesAccess(ROLES.ADMIN)
