@@ -19,7 +19,7 @@ async function bootstrap() {
           format: winston.format.combine(
             winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss A' }),
             winston.format.ms(),
-            nestWinstonModuleUtilities.format.nestLike('Apuntes en Notas', {
+            nestWinstonModuleUtilities.format.nestLike('Generic API', {
               colors: true,
               prettyPrint: true,
               processId: true,
@@ -47,10 +47,10 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Apuntes en Notas API')
-    .setDescription('Apuntes en Notas API')
+    .setTitle('Generic API')
+    .setDescription('Generic API')
     .setVersion('1.0')
-    .addTag('Apuntes en Notas API')
+    .addTag('Generic API')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
